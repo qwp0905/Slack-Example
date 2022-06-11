@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const { WebClient } = require("@slack/web-api")
 
-const token = process.env.SLACK_TOKEN
+const token = process.env.SLACK_TOKEN_TEST
 
 const Slack = function () {
     this.web = new WebClient(token)
