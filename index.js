@@ -7,7 +7,7 @@ const request=async()=>{
     const text=[]
     const abc=['a','b','c','d','e']
     text.push(SlackInstance.toCodeBlock(abc))
-    text.push(SlackInstance.toCode('씨빨'))
+    text.push(SlackInstance.toCode('hello'))
     text.push(SlackInstance.toQuotes(abc))
     text.push(SlackInstance.toOrderedList(abc))
     text.push(SlackInstance.toLink({name:'sibal',url:'https://www.youtube.com'}))
@@ -17,8 +17,8 @@ const request=async()=>{
 
     const columns='a b c d e f g'.split(' ')
     const data=['1 2 3 4 5 6 7','7 6 5 4 3 2 1'].map(e=>e.split(' '))
-    const initial_comment=SlackInstance.toCode("씨빨씨빨")
-    const file_name='jrojsldkfjls'
+    const initial_comment=SlackInstance.toCode("hello world")
+    const file_name='file name'
     
     await SlackInstance.sendFile({channel,columns,initial_comment,file_name,data})
 
