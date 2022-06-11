@@ -78,11 +78,11 @@ class Slack2 {
     }
 
     toOrderedList(list) {
-        return list.reduce((a, c, i) => a + `${i + 1}. ${c}\n`, '')
+        return list.reduce((a, c, i) => a + `${i + 1}.  ${c}\n`, '')
     }
 
     toUnorderedList(list) {
-        return list.reduce((a, c) => a + `- ${c}\n`, '')
+        return list.reduce((a, c) => a + `-  ${c}\n`, '')
     }
 
     toLink({ name, url }) {
