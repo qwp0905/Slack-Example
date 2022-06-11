@@ -13,6 +13,22 @@ Slack.prototype.getChannelID = async function ({ channel }) {
     return list.find((e) => e.name === channel).id
 }
 
+Slack.prototype.sendTextField = async function ({ channel, text }) {
+    const fields = text.map(e => {
+        return {
+            type: 'mrkdwn',
+            text: e
+        }
+    })
+    await this.web.chat.postMessage({
+        channel,
+        blocks: [{
+            type: 'section',
+            fields
+        }]
+    })
+}
+
 Slack.prototype.sendText = async function ({ channel, text }) {
     if (Array.isArray(text)) {
         text = text.join('\n')

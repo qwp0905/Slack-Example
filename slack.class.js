@@ -14,6 +14,22 @@ class Slack2 {
         return list.find((e) => e.name === channel).id
     }
 
+    async sendTextField({ channel, text }) {
+        const fields = text.map(e => {
+            return {
+                type: 'mrkdwn',
+                text: e
+            }
+        })
+        await this.web.chat.postMessage({
+            channel,
+            blocks: [{
+                type: 'section',
+                fields
+            }]
+        })
+    }
+
     async sendText({ channel, text }) {
         if (Array.isArray(text)) {
             text = text.join('\n')
@@ -78,3 +94,5 @@ class Slack2 {
         return `<@${user_id}>`
     }
 }
+
+module.exports = Slack2
