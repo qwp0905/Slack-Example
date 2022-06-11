@@ -41,14 +41,15 @@ class Slack2 {
         })
     }
 
-    async sendFile({ channel, file_name, columns, data, initial_comment = '' }) {
+    async sendTsvFile({ channel, file_name, columns, data, initial_comment = '' }) {
         const file = [columns, ...data].map(e => e.join('\t')).join('\n')
 
         await this.web.files.upload({
             channels: channel,
             filename: file_name,
             initial_comment,
-            file: new Buffer.from(file)
+            file: new Buffer.from(file),
+            filetype: 'tsv'
         })
     }
 

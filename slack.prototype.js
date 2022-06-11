@@ -40,14 +40,15 @@ Slack.prototype.sendText = async function ({ channel, text }) {
     })
 }
 
-Slack.prototype.sendFile = async function ({ channel, file_name, columns, data, initial_comment = '' }) {
+Slack.prototype.sendTsvFile = async function ({ channel, file_name, columns, data, initial_comment = '' }) {
     const file = [columns, ...data].map(e => e.join('\t')).join('\n')
 
     await this.web.files.upload({
         channels: channel,
         filename: file_name,
         initial_comment,
-        file: new Buffer.from(file)
+        file: new Buffer.from(file),
+        filetype: 'tsv'
     })
 }
 

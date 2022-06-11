@@ -13,7 +13,7 @@ const request = async () => {
     text.push(SlackInstance.toCode('hello'))
     text.push(SlackInstance.toQuotes(abc))
     text.push(SlackInstance.toOrderedList(abc))
-    text.push(SlackInstance.toLink({ name: 'sibal', url: 'https://www.youtube.com' }))
+    text.push(SlackInstance.toLink({ name: 'byebye', url: 'https://www.youtube.com' }))
     text.push(await SlackInstance.toMention('정권진'))
 
     await SlackInstance.sendText({ channel, text })
@@ -23,7 +23,7 @@ const request = async () => {
     const initial_comment = SlackInstance.toCode("hello world")
     const file_name = 'file name'
 
-    await SlackInstance.sendFile({ channel, columns, initial_comment, file_name, data })
+    await SlackInstance.sendTsvFile({ channel, columns, initial_comment, file_name, data })
 
 }
 request()
