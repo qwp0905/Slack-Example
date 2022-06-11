@@ -77,11 +77,11 @@ Slack.prototype.toCodeBlock = function (array) {
 }
 
 Slack.prototype.toOrderedList = function (list) {
-    return list.reduce((a, c, i) => a + `${i + 1}. ${c}\n`, '')
+    return list.reduce((a, c, i) => a + `${i + 1}.  ${c}\n`, '')
 }
 
 Slack.prototype.toUnorderedList = function (list) {
-    return list.reduce((a, c) => a + `- ${c}\n`, '')
+    return list.reduce((a, c) => a + `-  ${c}\n`, '')
 }
 
 Slack.prototype.toLink = function ({ name, url }) {
