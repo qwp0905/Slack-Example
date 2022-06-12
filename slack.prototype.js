@@ -55,14 +55,14 @@ Slack.prototype.sendText = async function ({ channel, user_name, context }) {
         const channel_id = await this.getChannelID({ channel })
         await this.web.chat.postMessage({
             channel: channel_id,
-            text:context
+            text: context
         })
     }
     if (user_name) {
         const user_id = await this.getUserID({ user_name })
         await this.web.chat.postMessage({
             channel: user_id,
-            text:context
+            text: context
         })
     }
 
