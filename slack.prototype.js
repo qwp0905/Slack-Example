@@ -13,43 +13,84 @@ Slack.prototype.getChannelID = async function ({ channel }) {
     return list.find((e) => e.name === channel).id
 }
 
-Slack.prototype.sendTextField = async function ({ channel, text }) {
+Slack.prototype.getUserID=async function({user_name}){
+    const users = await this.web.users.list()
+    return users.members.find((e) => e.real_name === user_name).id
+}
+
+Slack.prototype.sendTextField = async function ({ channel,user_name, text }) {
     const fields = text.map(e => {
         return {
             type: 'mrkdwn',
             text: e
         }
     })
-    await this.web.chat.postMessage({
-        channel,
-        blocks: [{
-            type: 'section',
-            fields
-        }]
-    })
+    if(channel){
+        const channel_id=await this.getChannelID({channel})
+        await this.web.chat.postMessage({
+            channel:channel_id,
+            blocks: [{
+                type: 'section',
+                fields
+            }]
+        })
+    }
+    if(user_name){
+        const user_id=await this.getUserID({user_name})
+        await this.web.chat.postMessage({
+            channel:user_id,
+            blocks:[{
+                type:'section',
+                fields
+            }]
+        })
+    }
 }
 
-Slack.prototype.sendText = async function ({ channel, text }) {
+Slack.prototype.sendText = async function ({ channel,user_name, text }) {
     if (Array.isArray(text)) {
         text = text.join('\n')
     }
-
-    await this.web.chat.postMessage({
-        channel,
-        text
-    })
+    if(channel){
+        const channel_id=await this.getChannelID({channel})
+        await this.web.chat.postMessage({
+            channel:channel_id,
+            text
+        })
+    }
+    if(user_name){
+        const user_id=await this.getUserID({user_name})
+        await this.web.chat.postMessage({
+            channel:user_id,
+            text
+        })
+    }
+    
 }
 
-Slack.prototype.sendTsvFile = async function ({ channel, file_name, columns, data, initial_comment = '' }) {
+Slack.prototype.sendTsvFile = async function ({ channel,user_name, file_name, columns, data, initial_comment = '' }) {
     const file = [columns, ...data].map(e => e.join('\t')).join('\n')
-
-    await this.web.files.upload({
-        channels: channel,
-        filename: file_name,
-        initial_comment,
-        file: new Buffer.from(file),
-        filetype: 'tsv'
-    })
+    if(channel){
+        const channel_id=await this.getChannelID({channel})
+        await this.web.files.upload({
+            channels: channel_id,
+            filename: file_name,
+            initial_comment,
+            file: new Buffer.from(file),
+            filetype: 'tsv'
+        })
+    }
+    if(user_name){
+        const user_id=await this.getUserID({user_name})
+        await this.web.files.upload({
+            channels: user_id,
+            filename: file_name,
+            initial_comment,
+            file: new Buffer.from(file),
+            filetype: 'tsv'
+        })
+    }
+    
 }
 
 Slack.prototype.toBold = function (string) {
@@ -89,8 +130,7 @@ Slack.prototype.toLink = function ({ name, url }) {
 }
 
 Slack.prototype.toMention = async function (user_name) {
-    const users = await this.web.users.list()
-    const user_id = users.members.find((e) => e.real_name === user_name).id
+    const user_id = await this.getUserID({user_name})
     return `<@${user_id}>`
 }
 module.exports = Slack
